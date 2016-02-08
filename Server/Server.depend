@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1454947777 source:/home/alex/eltex/Client-Server/Server/main.c
+	"server.h"
+
+1454947350 /home/alex/eltex/Client-Server/Server/server.h
+	"defs.h"
+	<pthread.h>
+	<errno.h>
+	<netinet/in.h>
+
+1454947606 source:/home/alex/eltex/Client-Server/Server/server.c
+	"server.h"
+
+1454943869 /home/alex/eltex/Client-Server/defs.h
+
