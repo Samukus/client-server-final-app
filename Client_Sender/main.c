@@ -25,12 +25,11 @@ size_t socket_init_udp(int *sock,int port){
     }
     struct sockaddr_in server;
     server.sin_family = AF_INET;
-    server.sin_port = htons(port);
+    server.sin_port = htons(PORT);
     server.sin_addr.s_addr = INADDR_ANY;
-
-    if (bind(*sock,(struct sockaddr *)&server, sizeof(server))){
-        perror("Binding");
-        return -1;
+    int i =0;
+    while(bind(*sock,(struct sockaddr *)&server, sizeof(server)) < 0){
+        continue;
     }
     return sizeof(server);
 };
@@ -39,15 +38,17 @@ int main(){
     int socket_rcv;
     struct sockaddr_in server; // структуры адреса сервера
 
-    socket_init_udp(&socket_rcv,PORT_SENDERS);
-
-
-
     while(1){
-        int new_port;
-        char buff[64]="";
-        int n = recvfrom(socket_rcv,&buff,sizeof(buff),NULL,NULL,NULL);
-        printf("Port for TCP: %s --- [%d bytes]\n",buff,n);
+        int new_port = 0;
+        socket_init_udp(&socket_rcv,PORT_SENDERS);
+        int n = recvfrom(socket_rcv,&new_port,sizeof(new_port),NULL,NULL,NULL);
+        if( n <= 0 ){
+            close(socket_rcv);
+            continue;
+        }
+        printf("Port for TCP: %d --- [%d bytes]\n",new_port,n);
+        close(socket_rcv);
+        usleep(50000);
     }
 
 

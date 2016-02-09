@@ -3,8 +3,10 @@
 
 #include "defs.h"
 #include <pthread.h>
+#include <stdio.h>
 #include <errno.h>
 #include <netinet/in.h>
+#include <sys/msg.h>
 
 
 size_t socket_init_broadcast(int *sock,int port);
@@ -15,17 +17,31 @@ void *udp_broadcast_recievers(void *arg);
 
 void *udp_broadcast_senders(void *arg);
 
-void *listner_for_sender(void *arg);
-
-void *listner_for_reciever(void *arg);
+void *listner(void *arg);
 
 void *client_sender(void *arg);
 
 void *client_reciever(void *arg);
 
+void *console();
+
+void queue_init();
+
+void add_message(char *message);
+
+int get_message(char *message);
+
 pthread_mutex_t shared_mutex;
 
-static struct thread_broadcasting_argument{
+int msg_queue;
+
+
+struct msgbuf {
+    long mtype;          /* тип сообщения */
+    char mtext[MSG_BUF_LEN];       /* текст сообщения */
+};
+
+struct thread_broadcasting_argument{
     int port_sender_current;
     int port_reciever_current;
     int number_of_messages;
