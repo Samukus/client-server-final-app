@@ -11,6 +11,7 @@ all: $(BUILD)Server $(BUILD)Client_Sender $(BUILD)Client_Reciever
 #############################################################################
 
 $(BUILD)Server: $(SERV_SRC)server.o $(SERV_SRC)main.o
+	-mkdir $(BUILD)
 	gcc -o $(BUILD)Server $(SERV_SRC)server.o $(SERV_SRC)main.o -pthread
 
 $(SERV_SRC)server.o: $(SERV_SRC)server.h $(SERV_SRC)server.c $(SERV_SRC)main.c defs.h
@@ -23,6 +24,7 @@ $(SERV_SRC)main.o: $(SERV_SRC)server.h $(SERV_SRC)server.c $(SERV_SRC)main.c def
 #############################################################################
 
 $(BUILD)Client_Sender: $(CLIENT_SND_SRC)main.o $(PWD)/client.o
+	-mkdir $(BUILD)
 	gcc -o $(BUILD)Client_Sender $(PWD)/client.o $(CLIENT_SND_SRC)main.o
 
 $(PWD)/client.o: $(PWD)/client.c defs.h
@@ -36,6 +38,7 @@ $(CLIENT_SND_SRC)main.o: $(CLIENT_SND_SRC)main.c defs.h
 #############################################################################
 
 $(BUILD)Client_Reciever: $(CLIENT_RCV_SRC)main.o $(PWD)/client.o
+	-mkdir $(BUILD)
 	gcc -o $(BUILD)Client_Reciever $(PWD)/client.o $(CLIENT_RCV_SRC)main.o
 
 $(CLIENT_RCV_SRC)main.o: $(CLIENT_RCV_SRC)main.c defs.h
