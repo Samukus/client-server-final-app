@@ -23,7 +23,13 @@ void *client_sender(void *arg);
 
 void *client_reciever(void *arg);
 
-void *console();
+void console();
+
+void print_help();
+
+void print_port();
+
+void print_queue();
 
 void queue_init();
 
@@ -34,7 +40,6 @@ int get_message(char *message);
 pthread_mutex_t shared_mutex;
 
 int msg_queue;
-
 
 struct msgbuf {
     long mtype;          /* тип сообщения */

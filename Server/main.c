@@ -1,8 +1,8 @@
 #include "server.h"
 
-int main()
-{
+int main(){
 
+    printf("This is Server\n");
     /*      Initialisation of IPC_QUEUE for messages                           */
     /*      queue id in server.h int msg_queue                                 */
 
@@ -14,17 +14,10 @@ int main()
     socket_init_broadcast(&udp_broadcast_arg.brcst_senders_sock,PORT_SENDERS);
     socket_init_broadcast(&udp_broadcast_arg.brcst_recievers_sock,PORT_RECIEVERS);
 
+    /* View HELP  */
+    print_help();
 
     /*      Creating threads:                                               */
-    /*      thread_console: thread for the control of the server (use 'c' ENTER)*/
-    /*      comands 'c': q - shut down the server,
-                         p - print ports for the senders and recievers,
-                         l - print number of messages in queue,
-                         c - clear console;                                     */
-
-    pthread_t thread_console;
-    pthread_create(&thread_console, NULL, console, NULL);
-
     /*     thread_lstn_snd: listner for connection of client sender  */
     pthread_t thread_lstn_snd;
     int code_sender = 0;
@@ -43,8 +36,17 @@ int main()
     pthread_t thread_brcst_rcv;
     pthread_create(&thread_brcst_rcv, NULL, udp_broadcast_recievers, &udp_broadcast_arg);
 
-    /*      while(1) until shut down*/
-    while(1);
+
+    /* View ports for recievers & senders in console                */
+    sleep(1);
+    print_port();
+
+    /*      thread_console: thread for the control of the server (use 'c' ENTER)*/
+    /*      comands 'c': q - shut down the server,
+                         p - print ports for the senders and recievers,
+                         l - print number of messages in queue,
+                         c - clear console;                                     */
+    console();
 
     return 0;
 }
